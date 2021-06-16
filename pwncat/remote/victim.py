@@ -297,7 +297,7 @@ class Victim:
             if mac is None:
                 ip = self.run("which ip").strip().decode("utf-8")
                 print(ip)
-                if not ip.startswith("w"):
+                if ip.startswith("w"):
                     ip = "/usr/sbin/ip"
                 if ip.startswith("/"):
                     ip_link_show = (
@@ -621,7 +621,7 @@ class Victim:
             self.host.arch = self.env(["uname", "-m"]).strip().decode("utf-8")
         except FileNotFoundError:
             self.host.arch = "unknown"
-
+        print("done uname -m")
         # progress.update(task_id, status="distribution", visible=False)
         try:
             with self.open("/etc/os-release", "r") as filp:
@@ -681,6 +681,8 @@ class Victim:
         else:
             path = self.run(f"which {shlex.quote(name)}").strip().decode("utf-8")
             if path == "" or "which: no" in path:
+                console.log(f"Path is quite restricted. [bright_red]Rewriting PATH to secure_path default. Edit your own pwncat if you dont want this.[/bright_red]")
+                self.run(f"export PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'")
                 path = None
             else:
                 if path.startswith("bash: ") or len(path.split("\n")) > 1:
