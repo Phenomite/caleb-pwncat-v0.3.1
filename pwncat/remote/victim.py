@@ -269,9 +269,9 @@ class Victim:
 
             # Attempt to grab the remote hostname and mac address
             hostname_path = self.run("which hostname").strip().decode("utf-8")
-            print(hostname_path)
+            # The above which call doesnt use which() yet, thus hardcoded path (most probable location)
             if hostname_path.startswith("w"):
-                hostname_path = "/usr/bin/hostname"
+                hostname_path = "/usr/bin/hostname" # Failure case if PATH is busted on target
             if hostname_path.startswith("/"):
                 hostname = self.run("hostname -f").strip()
             else:
@@ -285,9 +285,9 @@ class Victim:
 
             # Use ifconfig if available or ip link show.
             ifconfig = self.run("which ifconfig").strip().decode("utf-8")
-            print(ifconfig)
+            # The above which call doesnt use which() yet, thus hardcoded path (most probable location)
             if ifconfig.startswith("w"):
-                ifconfig = "/usr/sbin/ifconfig"
+                ifconfig = "/usr/sbin/ifconfig" # Failure case if PATH is busted on target
             if ifconfig.startswith("/"):
                 ifconfig_a = self.run(f"{ifconfig} -a").strip().decode("utf-8").lower()
                 for line in ifconfig_a.split("\n"):
@@ -296,9 +296,9 @@ class Victim:
                         break
             if mac is None:
                 ip = self.run("which ip").strip().decode("utf-8")
-                print(ip)
+                # The above which call doesnt use which() yet, thus hardcoded path (most probable location)
                 if ip.startswith("w"):
-                    ip = "/usr/sbin/ip"
+                    ip = "/usr/sbin/ip" # Failure case if PATH is busted on target
                 if ip.startswith("/"):
                     ip_link_show = (
                         self.run(f"{ip} link show").strip().decode("utf-8").lower()
@@ -621,7 +621,7 @@ class Victim:
             self.host.arch = self.env(["uname", "-m"]).strip().decode("utf-8")
         except FileNotFoundError:
             self.host.arch = "unknown"
-        print("done uname -m")
+
         # progress.update(task_id, status="distribution", visible=False)
         try:
             with self.open("/etc/os-release", "r") as filp:
