@@ -1,5 +1,9 @@
 # pwncat
 
+## Author - https://github.com/calebstewart
+
+## Maintained version - https://github.com/calebstewart/pwncat
+
 pwncat is a post-exploitation platform for Linux targets. It started out as a
 wrapper around basic bind and reverse shells and has grown from there. It
 streamlines common red team operations while staging code from your attacker
