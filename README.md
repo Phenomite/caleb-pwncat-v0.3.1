@@ -4,6 +4,19 @@
 
 ## Maintained version - https://github.com/calebstewart/pwncat
 
+## Quick install (Phenomite)
+
+```bash
+git clone https://github.com/Phenomite/caleb-pwncat-v0.3.1 /opt/pwncat
+cd /opt/pwncat
+python3 -m venv env
+. env/bin/activate
+python3 setup.py install
+python3 -m pip install -U git+https://github.com/calebstewart/paramiko
+python3 -m pip install git+https://github.com/JohnHammond/base64io-python
+ln -s $PWD/env/bin/pwncat $HOME/.local/bin/
+```
+
 pwncat is a post-exploitation platform for Linux targets. It started out as a
 wrapper around basic bind and reverse shells and has grown from there. It
 streamlines common red team operations while staging code from your attacker
